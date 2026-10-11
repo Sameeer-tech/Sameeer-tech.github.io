@@ -1,11 +1,11 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { profile, publicAsset } from './data/content'
+import { profile, publicAsset, whatsappHref } from './data/content'
 import SiteHeader from './components/SiteHeader'
 import { hasWebGL, prefersReducedMotion, useIsMobile } from './hooks'
 import ErrorBoundary from './components/ErrorBoundary'
-import { About, Approach, Contact, Experience, Footer, Projects, Skills } from './components/Sections'
+import { About, Approach, Contact, Experience, Footer, Projects, Skills, Testimonial } from './components/Sections'
 
 gsap.registerPlugin(ScrollTrigger)
 const Scene = lazy(() => import('./components/Scene')) // three.js loads after first paint
@@ -54,7 +54,12 @@ export default function App() {
               <p className="mono" data-in>{profile.location}</p>
               <h1 data-in>{profile.name}<span>{profile.title}</span></h1>
               <p className="lead" data-in>I build web applications, software systems, mobile apps and business tools: the kind that run a shop floor, not just a demo.</p>
-              <p className="cta-row" data-in><a className="cta" href="#projects">View Projects</a><a className="cta ghost" href="#contact">Let's Work Together</a></p>
+              <p className="mono hero-avail" data-in>{profile.availability}</p>
+              <p className="cta-row" data-in>
+                <a className="cta" href="#projects">View Projects</a>
+                <a className="cta ghost" href="#contact">Let's Work Together</a>
+                <a className="cta ghost" href={whatsappHref(profile.whatsapp)} target="_blank" rel="noreferrer">WhatsApp</a>
+              </p>
             </div>
             <figure className="hero-photo" data-in>
               <img
@@ -68,7 +73,7 @@ export default function App() {
             </figure>
           </div>
         </section>
-        <About /><Skills /><Projects /><Approach /><Experience /><Contact />
+        <About /><Skills /><Projects /><Approach /><Testimonial /><Experience /><Contact />
       </main>
       <Footer />
     </div>

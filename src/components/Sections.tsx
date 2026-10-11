@@ -1,5 +1,20 @@
 import { useState } from 'react'
-import { aboutAreas, education, experience, principles, profile, projectGalleryPath, projects, publicAsset, skills, Skill } from '../data/content'
+import {
+  aboutAreas,
+  education,
+  experience,
+  flagshipProjectSlug,
+  principles,
+  profile,
+  projectGalleryPath,
+  projects,
+  publicAsset,
+  skills,
+  testimonial,
+  whatsappHref,
+  type Project,
+  type Skill,
+} from '../data/content'
 import { ProjectDemoAccess } from './ProjectDemoAccess'
 
 const Head = ({ n, id, title }: { n: string; id: string; title: string }) => (
@@ -24,7 +39,7 @@ export const About = () => (
 )
 
 export function Skills() {
-  const [active, setActive] = useState<Skill>(skills[6])
+  const [active, setActive] = useState<Skill>(() => skills.find(s => s.name.startsWith('Flutter')) ?? skills[0])
   return (
     <section id="skills" aria-labelledby="h-skills" className="sec">
       <Head n="02" id="h-skills" title="Technology" />
@@ -46,37 +61,73 @@ export function Skills() {
   )
 }
 
-export const Projects = () => (
-  <section id="projects" aria-labelledby="h-projects" className="sec">
-    <Head n="03" id="h-projects" title="Projects" />
-    {projects.map((p, i) => (
-      <article className="case" key={p.name} data-reveal>
-        <div className="case-top"><span className="mono">{String(i + 1).padStart(2, '0')} / {p.category}</span><h3>{p.name}</h3></div>
-        <dl>
-          <div><dt>Problem</dt><dd>{p.problem}</dd></div>
-          <div><dt>Solution</dt><dd>{p.solution}</dd></div>
-          <div><dt>Key functionality</dt><dd>{p.features.join(' · ')}</dd></div>
-          <div><dt>Technologies</dt><dd className="mono">{p.tech.join(' · ')}</dd></div>
-          {p.demo && (
-            <div className="demo-access-cell">
-              <dt>Demo access</dt>
-              <dd>
-                <ProjectDemoAccess demo={p.demo} />
-              </dd>
-            </div>
-          )}
-        </dl>
-        {(p.live || p.repo || p.images?.length) && (
-          <p className="links">
-            {p.live && <a href={p.live} target="_blank" rel="noreferrer">Live site</a>}
-            {p.repo && <a href={p.repo} target="_blank" rel="noreferrer">Source</a>}
-            {p.images?.length ? <a href={projectGalleryPath(p.slug)}>Screenshots ({p.images.length})</a> : null}
-          </p>
+function ProjectCase({ p, index, flagship }: { p: Project; index: number; flagship?: boolean }) {
+  return (
+    <article className={`case${flagship ? ' case-flagship' : ''}`} data-reveal>
+      <div className="case-top">
+        <span className="mono">
+          {flagship ? 'Flagship' : String(index + 1).padStart(2, '0')} / {p.category}
+        </span>
+        <h3>{p.name}</h3>
+      </div>
+      <dl>
+        <div><dt>Problem</dt><dd>{p.problem}</dd></div>
+        <div><dt>Solution</dt><dd>{p.solution}</dd></div>
+        <div><dt>Outcomes</dt><dd><ul className="outcomes">{p.outcomes.map(o => <li key={o}>{o}</li>)}</ul></dd></div>
+        <div><dt>Key functionality</dt><dd>{p.features.join(' · ')}</dd></div>
+        <div><dt>Technologies</dt><dd className="mono">{p.tech.join(' · ')}</dd></div>
+        {p.demo && (
+          <div className="demo-access-cell">
+            <dt>Demo access</dt>
+            <dd><ProjectDemoAccess demo={p.demo} /></dd>
+          </div>
         )}
-      </article>
-    ))}
-  </section>
-)
+      </dl>
+      {(p.live || p.repo || p.images?.length) && (
+        <p className="links">
+          {p.live && <a href={p.live} target="_blank" rel="noreferrer">Live site</a>}
+          {p.repo && <a href={p.repo} target="_blank" rel="noreferrer">Source</a>}
+          {p.images?.length ? <a href={projectGalleryPath(p.slug)}>Screenshots ({p.images.length})</a> : null}
+        </p>
+      )}
+    </article>
+  )
+}
+
+export const Projects = () => {
+  const ordered = [...projects].sort((a, b) => {
+    if (a.slug === flagshipProjectSlug) return -1
+    if (b.slug === flagshipProjectSlug) return 1
+    return 0
+  })
+  let n = 0
+  return (
+    <section id="projects" aria-labelledby="h-projects" className="sec">
+      <Head n="03" id="h-projects" title="Projects" />
+      {ordered.map(p => {
+        const flagship = p.slug === flagshipProjectSlug
+        const index = flagship ? -1 : n++
+        return <ProjectCase key={p.slug} p={p} index={index} flagship={flagship} />
+      })}
+    </section>
+  )
+}
+
+export const Testimonial = () => {
+  if (!testimonial?.quote.trim()) return null
+  return (
+    <section id="endorsement" aria-labelledby="h-endorsement" className="sec testimonial-sec">
+      <Head n="—" id="h-endorsement" title="Kind words" />
+      <blockquote className="testimonial" data-reveal>
+        <p>&ldquo;{testimonial.quote}&rdquo;</p>
+        <footer>
+          <strong>{testimonial.author}</strong>
+          <span className="mono">{testimonial.role}</span>
+        </footer>
+      </blockquote>
+    </section>
+  )
+}
 
 export const Approach = () => (
   <section id="approach" aria-labelledby="h-approach" className="sec">
@@ -119,6 +170,7 @@ export const Contact = () => (
     <a className="cta big" data-reveal href={`mailto:${profile.email}`}>{profile.email}</a>
     <p className="links" data-reveal>
       <a href={`tel:${profile.phone.replace(/\s/g, '')}`}>{profile.phone}</a>
+      <a href={whatsappHref(profile.whatsapp)} target="_blank" rel="noreferrer">WhatsApp</a>
       <a href={profile.linkedin}>LinkedIn</a>
       {profile.github ? <a href={profile.github}>GitHub</a> : null}
     </p>

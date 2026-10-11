@@ -8,6 +8,19 @@ export const profile = {
   phone: '+923122287470',
   linkedin: 'https://www.linkedin.com/in/sameer-abdul-basit',
   github: 'https://github.com/Sameeer-tech',
+  /** Digits only, used for wa.me links (e.g. 923122287470). */
+  whatsapp: '923122287470',
+  availability: 'Open to full-time roles, freelance projects, and remote work · Karachi, Pakistan',
+}
+
+/** Featured project shown at the top of the Projects section. */
+export const flagshipProjectSlug = 'accounting-software'
+
+/** Set `quote` when you have a real testimonial; section stays hidden while empty. */
+export const testimonial: { quote: string; author: string; role: string } | null = null
+
+export function whatsappHref(digits: string) {
+  return `https://wa.me/${digits.replace(/\D/g, '')}`
 }
 
 export const nav = [
@@ -23,16 +36,17 @@ export const aboutAreas = ['Web development', 'Mobile applications', 'Desktop so
 
 export interface Skill { name: string; use: string; projects: string[] }
 export const skills: Skill[] = [
-  { name: 'HTML5 / CSS', use: 'Semantic, responsive interfaces.', projects: ['New Electro Palace', 'Sulanza Tech Website'] },
-  { name: 'JavaScript', use: 'Interactive frontends and tooling.', projects: ['New Electro Palace', 'Sulanza Tech Website'] },
-  { name: 'TypeScript', use: 'Typed React code bases.', projects: ['Accounting Software', 'Sulanza Tech Website'] },
-  { name: 'React', use: 'Component-based web interfaces.', projects: ['Accounting Software', 'Sulanza Tech Website'] },
-  { name: 'Node.js', use: 'APIs and build tooling.', projects: ['POS SaaS Application', 'Accounting Software'] },
-  { name: 'PHP', use: 'Server-side web applications.', projects: ['New Electro Palace'] },
-  { name: 'Flutter', use: 'Cross-platform mobile and desktop apps.', projects: ['Shah&Co Print Bridge', 'Shah&Co Scanner Software', 'POS SaaS Application'] },
-  { name: 'MySQL', use: 'Relational, database-driven systems.', projects: ['POS SaaS Application', 'Accounting Software'] },
+  { name: 'HTML5 / CSS', use: 'Semantic, responsive interfaces.', projects: ['New Electro Palace', 'Sulanza Tech Website', 'Accounting Software'] },
+  { name: 'JavaScript', use: 'Interactive frontends and tooling.', projects: ['New Electro Palace', 'Sulanza Tech Website', 'Accounting Software'] },
+  { name: 'Tailwind CSS', use: 'Utility-first UI styling and responsive layouts.', projects: ['Sulanza Tech Website', 'Accounting Software'] },
+  { name: 'TypeScript', use: 'Typed React code bases.', projects: ['This portfolio'] },
+  { name: 'React', use: 'Component-based web interfaces.', projects: ['This portfolio'] },
+  { name: 'Node.js', use: 'APIs and build tooling.', projects: [] },
+  { name: 'PHP', use: 'Server-side web applications.', projects: ['New Electro Palace', 'Accounting Software'] },
+  { name: 'Flutter', use: 'Cross-platform mobile and desktop apps.', projects: ['Shah&Co Print Bridge', 'Shah&Co Scanner Software'] },
+  { name: 'MySQL', use: 'Relational, database-driven systems.', projects: ['Accounting Software', 'New Electro Palace'] },
   { name: 'MongoDB', use: 'Document storage.', projects: [] },
-  { name: 'REST APIs', use: 'Connecting clients to back ends.', projects: ['POS SaaS Application', 'Accounting Software'] },
+  { name: 'REST APIs', use: 'Connecting clients to back ends.', projects: [] },
   { name: 'Three.js', use: 'Interactive 3D on the web.', projects: ['This portfolio'] },
   { name: 'GSAP', use: 'Scroll and interface motion.', projects: ['This portfolio'] },
   { name: 'Git / GitHub', use: 'Version control and deployment.', projects: ['This portfolio'] },
@@ -41,7 +55,8 @@ export const skills: Skill[] = [
 export interface Project {
   slug: string
   name: string; category: string; problem: string; solution: string
-  tech: string[]; features: string[]; images?: string[]; live?: string; repo?: string
+  tech: string[]; features: string[]; outcomes: string[]
+  images?: string[]; live?: string; repo?: string
   demo?: { user: string; password: string; hint?: string }
 }
 
@@ -71,6 +86,7 @@ export const projects: Project[] = [
     solution: 'A responsive storefront with a product catalog, search-friendly pages and product management.',
     tech: ['HTML5', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
     features: ['Product catalog', 'Responsive frontend', 'SEO', 'Product management', 'Business-focused UX'],
+    outcomes: ['Production site live at newelectropalace.pk for a Karachi retail client.', 'Full storefront flow: catalog, pricing pages, and trust/authorisation content.'],
     live: 'https://newelectropalace.pk/',
     images: [
       'new-electro-palace/home.png',
@@ -93,6 +109,7 @@ export const projects: Project[] = [
     solution: 'A Flutter application that connects to printing devices for everyday business tasks.',
     tech: ['Flutter'],
     features: ['Printing workflows', 'Barcode and receipt functionality', 'Device interaction'],
+    outcomes: ['Flutter app covering Bluetooth, Wi‑Fi, USB, and LAN printer setup.', 'Released builds published on GitHub for client deployment.'],
     images: [
       'shahco-printing-app/shahco-01.jpeg',
       'shahco-printing-app/shahco-02.jpeg',
@@ -110,6 +127,7 @@ export const projects: Project[] = [
     solution: 'A desktop application for scanning, bulk billing, customer blacklisting and searchable billing history.',
     tech: ['Flutter', 'Dart'],
     features: ['Barcode scanning', 'Bulk billing', 'Price ranges', 'Billing history', 'Customer blacklisting'],
+    outcomes: ['Desktop billing workflow with scanning, ranges, and searchable history.', 'Open-source codebase on GitHub for the scanner product.'],
     repo: 'https://github.com/Sameeer-tech/billscanningapp',
     images: [
       'shahco-scanner-software/scanner.png',
@@ -124,8 +142,9 @@ export const projects: Project[] = [
     name: 'Sulanza Tech Website', category: 'Marketing website',
     problem: 'Sulanza needed a modern company site to present services, portfolio work and enterprise offerings.',
     solution: 'A responsive marketing website with service pages, portfolio showcase, AI features and contact flows.',
-    tech: ['HTML5', 'CSS', 'JavaScript', 'React', 'TypeScript'],
+    tech: ['HTML', 'CSS', 'JavaScript', 'Tailwind CSS'],
     features: ['Service pages', 'Portfolio showcase', 'Enterprise solutions', 'AI feature highlights', 'Contact & about'],
+    outcomes: ['Marketing site live at sulanza.com for Sulanza Tech.', 'Multi-section site: services, enterprise offer, portfolio, and AI feature pages.'],
     live: 'https://sulanza.com/',
     images: [
       'sulanza-web/home.png',
@@ -144,8 +163,9 @@ export const projects: Project[] = [
     name: 'Accounting Software', category: 'SaaS / business software',
     problem: 'Teams needed a clear way to record transactions, manage accounts and pull reports without spreadsheet chaos.',
     solution: 'A web-based accounting system with chart of accounts, bulk and manual entry, CSV import, reporting and role-based user management.',
-    tech: ['React', 'TypeScript', 'Node.js', 'MySQL', 'REST APIs'],
+    tech: ['HTML', 'CSS', 'JavaScript', 'Tailwind CSS', 'PHP', 'MySQL'],
     features: ['Chart of accounts', 'Transactions & bulk entry', 'CSV import', 'Financial reports', 'User management', 'AI-assisted workflows'],
+    outcomes: ['Deployable web app with demo login for reviewers and stakeholders.', 'End-to-end modules from chart of accounts through reports and user roles.'],
     live: 'https://accounting-software.gt.tc/',
     demo: { user: 'admin', password: 'admin123', hint: 'Sign in on the live site to explore accounts, transactions and reports.' },
     images: [
@@ -159,14 +179,6 @@ export const projects: Project[] = [
       'accounting-software/usermanagement.png',
       'accounting-software/Aiassisted-accounting.png',
     ],
-  },
-  {
-    slug: 'pos-saas',
-    name: 'POS SaaS Application', category: 'SaaS / business software',
-    problem: 'Shops need point-of-sale tooling that works across phones and PCs.',
-    solution: 'A database-driven POS system covering daily business operations on multiple devices.',
-    tech: ['Flutter', 'Node.js', 'MySQL', 'REST APIs'],
-    features: ['Multi-device experience', 'Database-driven workflows', 'Operational UI'],
   },
 ]
 
@@ -183,7 +195,7 @@ export const experience = [
     role: 'Full-Stack Developer',
     period: 'Jan 2026 – Jun 2026 · Karachi, Pakistan',
     details: [
-      'Shipped client-facing web and business software (e-commerce, accounting, POS-style systems).',
+      'Shipped client-facing web and business software (e-commerce, accounting, and company sites).',
       'Built cross-platform Flutter apps for operational workflows such as printing and device integration.',
       'Worked with PHP, JavaScript, Node.js, MySQL, and REST APIs on production-oriented features.',
     ],
