@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { nav, profile, publicAsset } from './data/content'
+import { profile, publicAsset } from './data/content'
+import SiteHeader from './components/SiteHeader'
 import { hasWebGL, prefersReducedMotion, useIsMobile } from './hooks'
 import ErrorBoundary from './components/ErrorBoundary'
 import { About, Approach, Contact, Experience, Footer, Projects, Skills } from './components/Sections'
@@ -40,10 +41,7 @@ export default function App() {
       </div>
       <div className="progress" ref={bar} aria-hidden="true" />
       <a className="skip" href="#main">Skip to content</a>
-      <header className="bar">
-        <a href="#top" className="brand" aria-label={`${profile.name} — home`}>{profile.name}</a>
-        <nav aria-label="Primary"><ul>{nav.map(n => <li key={n.id}><a href={`#${n.id}`}>{n.label}</a></li>)}</ul></nav>
-      </header>
+      <SiteHeader />
       <main id="main">
         <section className="hero" id="top">
           {gl && (

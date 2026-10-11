@@ -32,6 +32,16 @@ const SHOT_LABELS: Record<string, string> = {
   reports: 'Reports',
   usermanagement: 'User management',
   'aiassisted-accounting': 'AI-assisted accounting',
+  scanner: 'Scanner workspace',
+  'bulk-billing': 'Bulk billing',
+  ranges: 'Price ranges',
+  history: 'Billing history',
+  blacklisting: 'Customer blacklisting',
+  services: 'Services',
+  'enterprise-solution': 'Enterprise solutions',
+  portfolio: 'Portfolio',
+  portfolio1: 'Portfolio detail',
+  'persnol-ai-type-feature': 'AI features',
 }
 
 function shotLabel(path: string, index: number) {
