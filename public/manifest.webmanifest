@@ -1,1 +1,1 @@
-{ "name": "Sameer Abdul Basit", "short_name": "Sameer", "start_url": "./", "display": "standalone", "background_color": "#0b0c0e", "theme_color": "#0b0c0e", "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }] }
+{ "name": "Sameer Abdul Basit", "short_name": "Sameer", "start_url": "./", "display": "standalone", "background_color": "#0b0c0e", "theme_color": "#0b0c0e", "icons": [{ "src": "profile-pic.jpeg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" }] }

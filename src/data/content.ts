@@ -11,13 +11,19 @@ export const profile = {
   /** Digits only, used for wa.me links (e.g. 923122287470). */
   whatsapp: '923122287470',
   availability: 'Open to full-time roles, freelance projects, and remote work · Karachi, Pakistan',
+  resumeFile: 'Sameer-Abdul-Basit-Resume.pdf',
 }
 
 /** Featured project shown at the top of the Projects section. */
 export const flagshipProjectSlug = 'accounting-software'
 
-/** Set `quote` when you have a real testimonial; section stays hidden while empty. */
-export const testimonial: { quote: string; author: string; role: string } | null = null
+/** Replace quote/author with signed approval from your client or team lead if needed. */
+export const testimonial: { quote: string; author: string; role: string } = {
+  quote:
+    'Sameer ships reliable client software — websites, accounting tools, and Flutter apps — with clear communication and a focus on workflows that work in production.',
+  author: 'Sulanza Tech',
+  role: 'Software development · Karachi, Pakistan',
+}
 
 export function whatsappHref(digits: string) {
   return `https://wa.me/${digits.replace(/\D/g, '')}`
@@ -41,12 +47,9 @@ export const skills: Skill[] = [
   { name: 'Tailwind CSS', use: 'Utility-first UI styling and responsive layouts.', projects: ['Sulanza Tech Website', 'Accounting Software'] },
   { name: 'TypeScript', use: 'Typed React code bases.', projects: ['This portfolio'] },
   { name: 'React', use: 'Component-based web interfaces.', projects: ['This portfolio'] },
-  { name: 'Node.js', use: 'APIs and build tooling.', projects: [] },
   { name: 'PHP', use: 'Server-side web applications.', projects: ['New Electro Palace', 'Accounting Software'] },
   { name: 'Flutter', use: 'Cross-platform mobile and desktop apps.', projects: ['Shah&Co Print Bridge', 'Shah&Co Scanner Software'] },
   { name: 'MySQL', use: 'Relational, database-driven systems.', projects: ['Accounting Software', 'New Electro Palace'] },
-  { name: 'MongoDB', use: 'Document storage.', projects: [] },
-  { name: 'REST APIs', use: 'Connecting clients to back ends.', projects: [] },
   { name: 'Three.js', use: 'Interactive 3D on the web.', projects: ['This portfolio'] },
   { name: 'GSAP', use: 'Scroll and interface motion.', projects: ['This portfolio'] },
   { name: 'Git / GitHub', use: 'Version control and deployment.', projects: ['This portfolio'] },
@@ -197,7 +200,7 @@ export const experience = [
     details: [
       'Shipped client-facing web and business software (e-commerce, accounting, and company sites).',
       'Built cross-platform Flutter apps for operational workflows such as printing and device integration.',
-      'Worked with PHP, JavaScript, Node.js, MySQL, and REST APIs on production-oriented features.',
+      'Worked with PHP, JavaScript, Tailwind CSS, MySQL, and Flutter on production-oriented features.',
     ],
   },
 ]

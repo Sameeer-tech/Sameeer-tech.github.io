@@ -114,7 +114,7 @@ export const Projects = () => {
 }
 
 export const Testimonial = () => {
-  if (!testimonial?.quote.trim()) return null
+  if (!testimonial.quote.trim()) return null
   return (
     <section id="endorsement" aria-labelledby="h-endorsement" className="sec testimonial-sec">
       <Head n="—" id="h-endorsement" title="Kind words" />
@@ -167,6 +167,9 @@ export const Contact = () => (
   <section id="contact" aria-labelledby="h-contact" className="sec contact">
     <Head n="06" id="h-contact" title="Let's work together" />
     <p className="lead" data-reveal>Have a project, a system to extend or a bug nobody can find? Send a message.</p>
+    <p className="cta-row" data-reveal>
+      <a className="cta" href={publicAsset(profile.resumeFile)} download target="_blank" rel="noreferrer">Download resume (PDF)</a>
+    </p>
     <a className="cta big" data-reveal href={`mailto:${profile.email}`}>{profile.email}</a>
     <p className="links" data-reveal>
       <a href={`tel:${profile.phone.replace(/\s/g, '')}`}>{profile.phone}</a>

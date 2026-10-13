@@ -57,6 +57,7 @@ export default function App() {
               <p className="mono hero-avail" data-in>{profile.availability}</p>
               <p className="cta-row" data-in>
                 <a className="cta" href="#projects">View Projects</a>
+                <a className="cta ghost" href={publicAsset(profile.resumeFile)} download target="_blank" rel="noreferrer">Download resume</a>
                 <a className="cta ghost" href="#contact">Let's Work Together</a>
                 <a className="cta ghost" href={whatsappHref(profile.whatsapp)} target="_blank" rel="noreferrer">WhatsApp</a>
               </p>
