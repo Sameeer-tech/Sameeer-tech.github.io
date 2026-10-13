@@ -9,6 +9,7 @@ import {
   projectGalleryPath,
   projects,
   publicAsset,
+  soloProjectScope,
   skills,
   testimonial,
   whatsappHref,
@@ -29,9 +30,12 @@ export const About = () => (
         <figure className="about-photo">
           <img src={publicAsset(profile.photo)} alt="" width={160} height={160} loading="lazy" decoding="async" />
         </figure>
-        <p className="lead">
-          I'm Sameer, a software developer in {profile.location}. I build web applications, mobile and desktop apps, and the back-end systems behind them, mostly for real businesses with real workflows.
-        </p>
+        <div className="about-copy">
+          <p className="lead">
+            I'm Sameer, a software developer in {profile.location}. I build web applications, mobile and desktop apps, and the back-end systems behind them, mostly for real businesses with real workflows.
+          </p>
+          <p className="mono build-note">{profile.soloBuildLine}</p>
+        </div>
       </div>
       <ul className="tags" data-reveal>{aboutAreas.map(a => <li key={a}>{a}</li>)}</ul>
     </div>
@@ -71,6 +75,7 @@ function ProjectCase({ p, index, flagship }: { p: Project; index: number; flagsh
         <h3>{p.name}</h3>
       </div>
       <dl>
+        <div><dt>Scope</dt><dd>{soloProjectScope}</dd></div>
         <div><dt>Problem</dt><dd>{p.problem}</dd></div>
         <div><dt>Solution</dt><dd>{p.solution}</dd></div>
         <div><dt>Outcomes</dt><dd><ul className="outcomes">{p.outcomes.map(o => <li key={o}>{o}</li>)}</ul></dd></div>

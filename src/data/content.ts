@@ -12,7 +12,13 @@ export const profile = {
   whatsapp: '923122287470',
   availability: 'Open to full-time roles, freelance projects, and remote work · Karachi, Pakistan',
   resumeFile: 'Sameer-Abdul-Basit-Resume.pdf',
+  soloBuildLine:
+    'I design and build my project work end to end — interface, application logic, and getting it live — as the sole developer on each project listed here.',
 }
+
+/** Shown on every project card (you built the full project yourself). */
+export const soloProjectScope =
+  'Solo build — design, development, and deployment by me.'
 
 /** Featured project shown at the top of the Projects section. */
 export const flagshipProjectSlug = 'accounting-software'
