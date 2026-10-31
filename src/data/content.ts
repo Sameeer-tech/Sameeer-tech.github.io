@@ -61,10 +61,29 @@ export const skills: Skill[] = [
   { name: 'Git / GitHub', use: 'Version control and deployment.', projects: ['This portfolio'] },
 ]
 
+export type ProjectTag = 'web' | 'mobile' | 'desktop' | 'php-stack'
+
+export const projectTagLabels: Record<ProjectTag, string> = {
+  web: 'Web',
+  mobile: 'Mobile',
+  desktop: 'Desktop',
+  'php-stack': 'PHP stack',
+}
+
+export const projectFilterOrder: ProjectTag[] = ['web', 'mobile', 'desktop', 'php-stack']
+
+export interface ProjectCaseStudy {
+  timeline: string
+  technicalDecisions: string[]
+  hardPart: string
+}
+
 export interface Project {
   slug: string
   name: string; category: string; problem: string; solution: string
   tech: string[]; features: string[]; outcomes: string[]
+  tags: ProjectTag[]
+  caseStudy: ProjectCaseStudy
   images?: string[]; live?: string; repo?: string
   demo?: { user: string; password: string; hint?: string }
 }
@@ -96,6 +115,16 @@ export const projects: Project[] = [
     tech: ['HTML5', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
     features: ['Product catalog', 'Responsive frontend', 'SEO', 'Product management', 'Business-focused UX'],
     outcomes: ['Production site live at newelectropalace.pk for a Karachi retail client.', 'Full storefront flow: catalog, pricing pages, and trust/authorisation content.'],
+    tags: ['web', 'php-stack'],
+    caseStudy: {
+      timeline: 'Client e-commerce · 2024–2025',
+      technicalDecisions: [
+        'PHP and MySQL so the client can manage products without a separate CMS subscription.',
+        'Hand-built responsive layout tuned for catalog and price-hub pages rather than a generic theme.',
+        'Trust and authorisation pages kept first-class in the IA for appliance retail compliance.',
+      ],
+      hardPart: 'Structuring catalog and price content so a non-technical shop team could update listings without breaking layout or SEO pages.',
+    },
     live: 'https://newelectropalace.pk/',
     images: [
       'new-electro-palace/home.png',
@@ -119,6 +148,16 @@ export const projects: Project[] = [
     tech: ['Flutter'],
     features: ['Printing workflows', 'Barcode and receipt functionality', 'Device interaction'],
     outcomes: ['Flutter app covering Bluetooth, Wi‑Fi, USB, and LAN printer setup.', 'Released builds published on GitHub for client deployment.'],
+    tags: ['mobile', 'desktop'],
+    caseStudy: {
+      timeline: 'Print Bridge releases · 2025',
+      technicalDecisions: [
+        'One Flutter codebase for mobile and desktop instead of separate native apps.',
+        'Multiple connection paths (Bluetooth, Wi‑Fi, USB, LAN) behind a single device-management flow.',
+        'GitHub Releases for installable builds the client can deploy without an app store gate.',
+      ],
+      hardPart: 'Getting reliable printer discovery and pairing across inconsistent firmware and connection types.',
+    },
     images: [
       'shahco-printing-app/shahco-01.jpeg',
       'shahco-printing-app/shahco-02.jpeg',
@@ -137,6 +176,16 @@ export const projects: Project[] = [
     tech: ['Flutter', 'Dart'],
     features: ['Barcode scanning', 'Bulk billing', 'Price ranges', 'Billing history', 'Customer blacklisting'],
     outcomes: ['Desktop billing workflow with scanning, ranges, and searchable history.', 'Open-source codebase on GitHub for the scanner product.'],
+    tags: ['desktop'],
+    caseStudy: {
+      timeline: 'Desktop billing · 2025',
+      technicalDecisions: [
+        'Flutter desktop for one UI on Windows billing counters.',
+        'Searchable billing history and price-range rules kept separate from day-to-day scan flow.',
+        'Customer blacklist as an operational guardrail, not an afterthought modal.',
+      ],
+      hardPart: 'Keeping scan-to-line-item fast enough that cashiers never wait on the UI during peak billing.',
+    },
     repo: 'https://github.com/Sameeer-tech/billscanningapp',
     images: [
       'shahco-scanner-software/scanner.png',
@@ -154,6 +203,16 @@ export const projects: Project[] = [
     tech: ['HTML', 'CSS', 'JavaScript', 'Tailwind CSS'],
     features: ['Service pages', 'Portfolio showcase', 'Enterprise solutions', 'AI feature highlights', 'Contact & about'],
     outcomes: ['Marketing site live at sulanza.com for Sulanza Tech.', 'Multi-section site: services, enterprise offer, portfolio, and AI feature pages.'],
+    tags: ['web'],
+    caseStudy: {
+      timeline: 'Sulanza marketing site · 2026',
+      technicalDecisions: [
+        'Tailwind CSS for consistent spacing and responsive marketing sections.',
+        'Multi-page static structure: services, enterprise, portfolio, and AI highlights each with clear entry points.',
+        'Contact and about flows wired for lead capture without a heavy backend on day one.',
+      ],
+      hardPart: 'Balancing enterprise vs services story in navigation so visitors find the right offer in one or two clicks.',
+    },
     live: 'https://sulanza.com/',
     images: [
       'sulanza-web/home.png',
@@ -175,6 +234,16 @@ export const projects: Project[] = [
     tech: ['HTML', 'CSS', 'JavaScript', 'Tailwind CSS', 'PHP', 'MySQL'],
     features: ['Chart of accounts', 'Transactions & bulk entry', 'CSV import', 'Financial reports', 'User management', 'AI-assisted workflows'],
     outcomes: ['Deployable web app with demo login for reviewers and stakeholders.', 'End-to-end modules from chart of accounts through reports and user roles.'],
+    tags: ['web', 'php-stack'],
+    caseStudy: {
+      timeline: 'Flagship accounting app · 2025–2026',
+      technicalDecisions: [
+        'PHP and MySQL monolith with role-based users — simple to host and extend for client deployments.',
+        'Chart of accounts as the single source of truth feeding reports and bulk entry.',
+        'CSV import path for teams migrating off spreadsheets without re-keying everything.',
+      ],
+      hardPart: 'Bulk entry and imports staying consistent with balances and an audit-friendly transaction history.',
+    },
     live: 'https://accounting-software.gt.tc/',
     demo: { user: 'admin', password: 'admin123', hint: 'Sign in on the live site to explore accounts, transactions and reports.' },
     images: [

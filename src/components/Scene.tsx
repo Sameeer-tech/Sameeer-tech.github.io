@@ -20,13 +20,18 @@ function Network({ count }: { count: number }) {
     return { points: p, links: new Float32Array(l) }
   }, [count])
 
-  useFrame(({ pointer }, dt) => {
-    const g = group.current; if (!g) return
-    const scroll = Math.min(window.scrollY / window.innerHeight, 3)
-    g.rotation.y += dt * 0.06
-    g.rotation.x += (pointer.y * 0.25 + scroll * 0.3 - g.rotation.x) * 0.04
-    g.position.x += (pointer.x * 0.2 - g.position.x) * 0.04
-    g.position.y += (scroll * 0.6 - g.position.y) * 0.05
+  useFrame(({ pointer, clock }, dt) => {
+    const g = group.current
+    if (!g) return
+    const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1)
+    const progress = window.scrollY / maxScroll
+    const scrollUnits = window.scrollY / window.innerHeight
+    g.rotation.y += dt * 0.05 + progress * dt * 0.35
+    g.rotation.x += (pointer.y * 0.22 + progress * 1.1 - g.rotation.x) * 0.045
+    g.rotation.z += (progress * 0.45 - g.rotation.z) * 0.04
+    g.position.x += (pointer.x * 0.35 + Math.sin(clock.elapsedTime * 0.2) * 0.08 - g.position.x) * 0.04
+    g.position.y += (-progress * 1.8 + scrollUnits * 0.15 - g.position.y) * 0.05
+    g.position.z += (progress * 0.9 - g.position.z) * 0.04
   })
 
   return (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import App from './App'
+import PortfolioGuide from './components/PortfolioGuide'
 import ProjectGalleryPage from './components/ProjectGalleryPage'
 import { parseProjectGallerySlug } from './data/content'
 
@@ -12,6 +13,10 @@ export default function Root() {
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
-  if (gallerySlug) return <ProjectGalleryPage slug={gallerySlug} />
-  return <App />
+  return (
+    <>
+      {gallerySlug ? <ProjectGalleryPage slug={gallerySlug} /> : <App />}
+      <PortfolioGuide />
+    </>
+  )
 }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getProjectBySlug, profile, publicAsset, type Project } from '../data/content'
+import { getProjectBySlug, profile, projectTagLabels, soloProjectScope, type Project } from '../data/content'
+import { GalleryImage } from './GalleryImage'
 import { ProjectDemoAccess } from './ProjectDemoAccess'
 
 type Props = { slug: string }
@@ -98,13 +99,32 @@ function GalleryLightbox({
           </button>
         </header>
         <figure className="lightbox-figure">
-          <img src={publicAsset(src)} alt={`${project.name} — ${label}`} />
+          <button
+            type="button"
+            className="lightbox-edge lightbox-edge--prev"
+            onClick={onPrev}
+            disabled={index === 0}
+            aria-label="Previous screenshot"
+          >
+            ‹
+          </button>
+          <GalleryImage path={src} alt={`${project.name} — ${label}`} loading="eager" className="lightbox-img" />
+          <button
+            type="button"
+            className="lightbox-edge lightbox-edge--next"
+            onClick={onNext}
+            disabled={index === images.length - 1}
+            aria-label="Next screenshot"
+          >
+            ›
+          </button>
         </figure>
-        <div className="lightbox-nav">
-          <button type="button" className="cta ghost" onClick={onPrev} disabled={index === 0}>
+        <div className="lightbox-nav" aria-label="Screenshot navigation">
+          <button type="button" className="cta ghost lightbox-nav-btn" onClick={onPrev} disabled={index === 0}>
             Previous
           </button>
-          <button type="button" className="cta ghost" onClick={onNext} disabled={index === images.length - 1}>
+          <p className="mono lightbox-nav-hint">← → arrow keys</p>
+          <button type="button" className="cta ghost lightbox-nav-btn" onClick={onNext} disabled={index === images.length - 1}>
             Next
           </button>
         </div>
@@ -206,8 +226,58 @@ export default function ProjectGalleryPage({ slug }: Props) {
             <p className="mono">Screenshots</p>
             <p className="gallery-stat">{images.length}</p>
             {project.demo && <ProjectDemoAccess demo={project.demo} />}
-            <p className="mono gallery-meta-note">Click any image to open a full preview. Use arrow keys inside the viewer.</p>
+            <p className="mono gallery-meta-note">Tap an image for full preview. Use on-screen arrows or ← → keys.</p>
           </aside>
+        </section>
+
+        <section className="gallery-case sec" aria-labelledby="gallery-case-heading">
+          <h2 id="gallery-case-heading" className="gallery-case-title">
+            Case study
+          </h2>
+          <dl className="gallery-case-dl">
+            <div>
+              <dt>Role</dt>
+              <dd>{soloProjectScope}</dd>
+            </div>
+            <div>
+              <dt>Timeline</dt>
+              <dd>{project.caseStudy.timeline}</dd>
+            </div>
+            {project.tags.length > 0 && (
+              <div>
+                <dt>Type</dt>
+                <dd>{project.tags.map(t => projectTagLabels[t]).join(' · ')}</dd>
+              </div>
+            )}
+            <div>
+              <dt>Technical decisions</dt>
+              <dd>
+                <ul className="gallery-case-list">
+                  {project.caseStudy.technicalDecisions.map(d => (
+                    <li key={d}>{d}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+            <div>
+              <dt>Hard part</dt>
+              <dd>{project.caseStudy.hardPart}</dd>
+            </div>
+            <div>
+              <dt>Problem</dt>
+              <dd>{project.problem}</dd>
+            </div>
+            <div>
+              <dt>Outcomes</dt>
+              <dd>
+                <ul className="gallery-case-list">
+                  {project.outcomes.map(o => (
+                    <li key={o}>{o}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          </dl>
         </section>
 
         <section className="gallery-shots sec" aria-labelledby="gallery-shots-heading">
@@ -220,7 +290,7 @@ export default function ProjectGalleryPage({ slug }: Props) {
               return (
                 <article className="gallery-card" key={src}>
                   <button type="button" className="gallery-shot" onClick={() => openAt(j)} aria-label={`Open ${label}`}>
-                    <img src={publicAsset(src)} alt={`${project.name} — ${label}`} loading={j < 4 ? 'eager' : 'lazy'} decoding="async" />
+                    <GalleryImage path={src} alt={`${project.name} — ${label}`} loading={j < 4 ? 'eager' : 'lazy'} />
                     <span className="gallery-shot-hover mono">View full size</span>
                   </button>
                   <figcaption className="gallery-cap">

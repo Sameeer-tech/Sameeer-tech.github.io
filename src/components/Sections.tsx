@@ -6,7 +6,9 @@ import {
   flagshipProjectSlug,
   principles,
   profile,
+  projectFilterOrder,
   projectGalleryPath,
+  projectTagLabels,
   projects,
   publicAsset,
   soloProjectScope,
@@ -14,8 +16,10 @@ import {
   testimonial,
   whatsappHref,
   type Project,
+  type ProjectTag,
   type Skill,
 } from '../data/content'
+import { CopyButton } from './CopyButton'
 import { ProjectDemoAccess } from './ProjectDemoAccess'
 
 const Head = ({ n, id, title }: { n: string; id: string; title: string }) => (
@@ -74,6 +78,13 @@ function ProjectCase({ p, index, flagship }: { p: Project; index: number; flagsh
         </span>
         <h3>{p.name}</h3>
       </div>
+      {p.tags.length > 0 && (
+        <ul className="project-tags" aria-label="Project type">
+          {p.tags.map(t => (
+            <li key={t}>{projectTagLabels[t]}</li>
+          ))}
+        </ul>
+      )}
       <dl>
         <div><dt>Scope</dt><dd>{soloProjectScope}</dd></div>
         <div><dt>Problem</dt><dd>{p.problem}</dd></div>
@@ -99,21 +110,45 @@ function ProjectCase({ p, index, flagship }: { p: Project; index: number; flagsh
   )
 }
 
+type ProjectFilter = 'all' | ProjectTag
+
+function projectMatchesFilter(p: Project, filter: ProjectFilter) {
+  return filter === 'all' || p.tags.includes(filter)
+}
+
 export const Projects = () => {
+  const [filter, setFilter] = useState<ProjectFilter>('all')
   const ordered = [...projects].sort((a, b) => {
     if (a.slug === flagshipProjectSlug) return -1
     if (b.slug === flagshipProjectSlug) return 1
     return 0
   })
+  const visible = ordered.filter(p => projectMatchesFilter(p, filter))
   let n = 0
   return (
     <section id="projects" aria-labelledby="h-projects" className="sec">
       <Head n="03" id="h-projects" title="Projects" />
-      {ordered.map(p => {
-        const flagship = p.slug === flagshipProjectSlug
-        const index = flagship ? -1 : n++
-        return <ProjectCase key={p.slug} p={p} index={index} flagship={flagship} />
-      })}
+      <div className="project-filters" data-reveal role="group" aria-label="Filter projects">
+        <button type="button" className={filter === 'all' ? 'on' : ''} onClick={() => setFilter('all')}>
+          All
+        </button>
+        {projectFilterOrder.map(tag => (
+          <button key={tag} type="button" className={filter === tag ? 'on' : ''} onClick={() => setFilter(tag)}>
+            {projectTagLabels[tag]}
+          </button>
+        ))}
+      </div>
+      {visible.length === 0 ? (
+        <p className="mono project-filter-empty" data-reveal>
+          No projects in this group — try another filter.
+        </p>
+      ) : (
+        visible.map(p => {
+          const flagship = p.slug === flagshipProjectSlug
+          const index = flagship ? -1 : n++
+          return <ProjectCase key={p.slug} p={p} index={index} flagship={flagship} />
+        })
+      )}
     </section>
   )
 }
@@ -175,9 +210,15 @@ export const Contact = () => (
     <p className="cta-row" data-reveal>
       <a className="cta" href={publicAsset(profile.resumeFile)} download target="_blank" rel="noreferrer">Download resume (PDF)</a>
     </p>
-    <a className="cta big" data-reveal href={`mailto:${profile.email}`}>{profile.email}</a>
+    <div className="contact-copy-row" data-reveal>
+      <a className="cta big" href={`mailto:${profile.email}`}>{profile.email}</a>
+      <CopyButton text={profile.email} label="email" />
+    </div>
+    <div className="contact-copy-row contact-copy-row--phone" data-reveal>
+      <a className="contact-phone" href={`tel:${profile.phone.replace(/\s/g, '')}`}>{profile.phone}</a>
+      <CopyButton text={profile.phone} label="phone" />
+    </div>
     <p className="links" data-reveal>
-      <a href={`tel:${profile.phone.replace(/\s/g, '')}`}>{profile.phone}</a>
       <a href={whatsappHref(profile.whatsapp)} target="_blank" rel="noreferrer">WhatsApp</a>
       <a href={profile.linkedin}>LinkedIn</a>
       {profile.github ? <a href={profile.github}>GitHub</a> : null}

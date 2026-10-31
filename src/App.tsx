@@ -41,14 +41,16 @@ export default function App() {
       </div>
       <div className="progress" ref={bar} aria-hidden="true" />
       <a className="skip" href="#main">Skip to content</a>
+      {gl && (
+        <div className="scene scene--scroll" aria-hidden="true">
+          <ErrorBoundary>
+            <Suspense fallback={null}>{loaded || prefersReducedMotion() ? <Scene mobile={mobile} /> : null}</Suspense>
+          </ErrorBoundary>
+        </div>
+      )}
       <SiteHeader />
-      <main id="main">
+      <main id="main" className="site-main">
         <section className="hero" id="top">
-          {gl && (
-            <div className="scene" aria-hidden="true">
-              <ErrorBoundary><Suspense fallback={null}>{loaded || prefersReducedMotion() ? <Scene mobile={mobile} /> : null}</Suspense></ErrorBoundary>
-            </div>
-          )}
           <div className="hero-inner">
             <div className="hero-copy">
               <p className="mono" data-in>{profile.location}</p>
