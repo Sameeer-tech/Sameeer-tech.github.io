@@ -90,12 +90,17 @@ export default function PortfolioGuide() {
 
   useEffect(() => {
     if (!open) return
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     inputRef.current?.focus({ preventScroll: true })
     const onKey = (ev: KeyboardEvent) => {
       if (ev.key === 'Escape') setOpen(false)
     }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = prevOverflow
+      window.removeEventListener('keydown', onKey)
+    }
   }, [open])
 
   useEffect(() => {
@@ -109,7 +114,7 @@ export default function PortfolioGuide() {
     <>
       <button
         type="button"
-        className="guide-fab"
+        className={`guide-fab${open ? ' guide-fab--open' : ''}`}
         aria-expanded={open}
         aria-controls="portfolio-guide-panel"
         onClick={() => setOpen(v => !v)}
@@ -124,12 +129,13 @@ export default function PortfolioGuide() {
 
       <div
         id="portfolio-guide-panel"
-        className="guide-panel"
+        className={`guide-panel${open ? ' guide-panel--open' : ''}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         hidden={!open}
       >
+        <div className="guide-sheet-handle" aria-hidden="true" />
         <header className="guide-head">
           <div className="guide-head-text">
             <h2 id={titleId} className="guide-title">
